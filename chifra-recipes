@@ -1,0 +1,20 @@
+# export dai approvals (on uniswap)
+
+chifra export --cache --articulate --first_block 12215000 --last_block 13715000 --fmt csv 0x6b175474e89094c44da98b954eedeac495271d0f | grep 'approve(0x7a250d5630b4cf539739df2c5dacb4c659f2488d' | tr -d '"' | cut -d ',' -f1,2,4,5,11 > dai_uniswapv2_approvals.csv
+
+  # without articulation:
+
+DISPLAY_FORMAT="[{BLOCKNUMBER}],[{TRANSACTIONINDEX}],[{TIMESTAMP}],[{FROM}],[{NONCE}],[{TO}],[{HASH}],[{ISERROR}],[{COMPRESSEDTX}]" chifra export --cache --first_block 12215000 --last_block 13715000 0x6b175474e89094c44da98b954eedeac495271d0f 0x095ea7b3 | grep 7a250d5630b4cf539739df2c5dacb4c659f2488d | cut -d ',' -f1-8 > dai_approvals_univ2.csv
+
+# export dai swaps (on uniswap)
+
+chifra export --cache --articulate --first_block 12215000 --last_block 13715000 --fmt csv 0x7a250d5630b4cf539739df2c5dacb4c659f2488d | grep \\[0x6b175474e89094c44da98b954eedeac495271d0f | tr -d '"' | cut -d ',' -f1,2,4,5,11 > dai_swaps.csv
+
+  # without articulation
+
+DISPLAY_FORMAT="[{BLOCKNUMBER}],[{TRANSACTIONINDEX}],[{TIMESTAMP}],[{FROM}],[{NONCE}],[{TO}],[{HASH}],[{ISERROR}],[{COMPRESSEDTX}]" chifra export --cache --first_block 12945000 --last_block 12985000 0x7a250d5630b4cf539739df2c5dacb4c659f2488d 0x18cbafe5 0x38ed1739 0x4a25d94a 0x5c11d795 0x791ac947 | grep -P ', stub: \d{20}0000000000000000000000006b175474e89094c44da98b954eedeac495271d0f' | cut -d ',' -f1-8 > dai_swaps_univ2.csv
+
+
+# export tornado cash deposits
+
+chifra export -x json --first_block 12965000 0x722122df12d4e14e13ac3b6895a86e84145b6967 0x13d98d13 > tornado_deposits.json
